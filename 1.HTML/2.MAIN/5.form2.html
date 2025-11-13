@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>5.form2</title>
+    </head>
+    <body>
+        <h1>내 폼으로 데이터 서버 전송하기</h1>
+        <h2>가로 입력 로그인 폼</h2>
+        <form>
+            <!-- get 방식 : url에 데이터를 포함-->
+            <!-- 주석을 편하게 쓰는 방법 cmd + / -->
+            <!-- name은 서버로 전송할때의 "KEY", 사용자가 입력한 값은 "VALUE" -->
+            <label>아이디</label>
+            <input type="text" name="id" placeholder="아이디를 입력해주세요">
+            <!-- 여기서는 key가 pw, value는 사용자가 입력한 실제 비밀번호 -->
+            <label>비밀번호</label>
+            <input type="password" name="pw" placeholder="비밀번호를 입력해주세요">
+            <input type="submit" value="로그인">
+        </form>
+        <h2>세로 입력 로그인 폼</h2>
+        <form method="post">
+            <!-- post 방식 : 사용자 입력값을 body에 담아서 보낸다 -->
+            <label>아이디</label>
+            <input type="text" name="id"> <br>
+            <label>비밀번호</label>
+            <input type="password" name="pw"> <br>
+            <input type="submit" value="로그인">
+        </form>
+
+        <h2>네이버 따라하기</h2>
+        <form>
+            <label>검색</label>
+            <input type="text" name="query" placeholder="키워드를 입력해주세요">
+            <input type="submit" value="검색">
+        </form>
+    </body>
+</html>
