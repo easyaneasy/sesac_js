@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>13명 자리 랜덤 배치</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background: #f7f9fc;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        button {
+            width: 150px;
+            padding: 12px;
+            margin-top: 12px;
+            border: none;
+            background: #4a8df7;
+            color: #fff;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-block;
+            margin: 6px;
+        }
+
+        /* seat map styles */
+        .seat-area {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 18px;
+            align-items: center;
+        }
+
+        .group-row {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .group-box {
+            display: flex;
+            gap: 10px;
+            background: transparent;
+        }
+
+        .seat {
+            width: 100px;
+            height: 70px;
+            border: 2px solid #4a8df7;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+            background: #fff;
+        }
+
+        .seat-num {
+            font-weight: 700;
+            color: #1662d1;
+            font-size: 14px;
+        }
+
+        .seat-name {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #333;
+            max-width: 88px;
+            text-align: center;
+            word-break: break-word;
+        }
+
+        .namelist {
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+
+        @media(max-width:560px) {
+            .group-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>13명 자리 랜덤 배치</h2>
+
+        <div class="namelist" id="namelist">신지원, 남기정, 변영찬, 김윤군, 이지안, 김준성, 김주연, 공정배, 이유랑, 노정운, 장수빈, 박호정, 조진희</div>
+
+        <button onclick="shuffleSeats()">자리 섞기</button>
+        <button onclick="createEmptySeatMap()">초기화</button>
+
+        <div id="seatmap" class="seat-area"></div>
+    </div>
+
+    <script>
+        // 13명 이름 데이터 입력
+        const names = ['신지원', '남기정', '변영찬', '김윤군', '이지안', '김준성', '김주연', '공정배', '이유랑', '노정운', '장수빈', '박호정', '조진희'];
+
+        const seatmapDiv = document.getElementById('seatmap');
+
+        function createEmptySeatMap() {
+            const emptySeatHTML = (num) => `
+        <div class="seat">
+          <div class="seat-num">${num}</div>
+          <div class="seat-name">&nbsp;</div>
+        </div>`;
+
+            const row = (arr1, arr2) => `<div class="group-row">
+                                      <div class="group"><div class="group-box">${arr1.map(emptySeatHTML).join('')}</div></div>
+                                      <div class="group"><div class="group-box">${arr2.map(emptySeatHTML).join('')}</div></div>
+                                    </div>`;
+
+            seatmapDiv.innerHTML = `<div class="seat-area">
+                                 ${row([6, 5], [2, 1])}
+                                 ${row([8, 7], [4, 3])}
+                                 ${row([13, 12, 11], [10, 9])}
+                               </div>`;
+        }
+
+        createEmptySeatMap();
+
+        function shuffleSeats() {
+            const seats = [...Array(13).keys()].map(n => n + 1);
+            for (let i = seats.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [seats[i], seats[j]] = [seats[j], seats[i]];
+            }
+
+            seatmapDiv.innerHTML = generateSeatMap(names, seats);
+        }
+
+        function generateSeatMap(names, seats) {
+            const seatInfo = {};
+            seats.forEach((s, idx) => seatInfo[s] = names[idx]);
+
+            const seatHTML = (num) => `
+        <div class="seat">
+          <div class="seat-num">${num}</div>
+          <div class="seat-name">${seatInfo[num] || ''}</div>
+        </div>`;
+
+            const row = (arr1, arr2) => `<div class="group-row">
+                                      <div class="group"><div class="group-box">${arr1.map(seatHTML).join('')}</div></div>
+                                      <div class="group"><div class="group-box">${arr2.map(seatHTML).join('')}</div></div>
+                                    </div>`;
+
+            return `<div class="seat-area">
+                ${row([6, 5], [2, 1])}
+                ${row([8, 7], [4, 3])}
+                ${row([13, 12, 11], [10, 9])}
+              </div>`;
+        }
+    </script>
+</body>
+
+</html>
