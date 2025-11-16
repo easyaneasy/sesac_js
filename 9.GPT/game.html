@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>길건너친구들</title>
+    <style>
+        :root {
+            --bg: #9ad3ff;
+            --grass: #8fd694;
+            --road: #333;
+            --text: #fff;
+            --card: #ffffffcc;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial
+        }
+
+        .wrap {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(#87ceeb, #bfe9ff)
+        }
+
+        .card {
+            width: 900px;
+            max-width: 100%;
+            background: var(--card);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.06)
+        }
+
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(#e8f7ff, #bfe9ff);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 12px 18px
+        }
+
+        .btn {
+            background: #ff7a7a;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .btn.secondary {
+            background: #6c7ae0
+        }
+
+        .overlay {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center
+        }
+
+        .hud {
+            position: absolute;
+            left: 18px;
+            top: 18px;
+            padding: 6px 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 8px;
+            font-weight: 700
+        }
+
+        .right-hud {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            padding: 6px 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 8px;
+            font-weight: 700
+        }
+
+        footer {
+            padding: 12px 18px;
+            background: #fff8;
+            text-align: right;
+            font-size: 13px;
+            color: #333
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card" id="card">
+            <header>
+                <h1>길건너친구들</h1>
+                <div class="info">화살표 / WASD로 이동 · 골 도달마다 점수↑</div>
+            </header>
+
+            <div style="position:relative">
+                <canvas id="gameCanvas" width="900" height="600"></canvas>
+                <div class="hud" id="scoreHud">점수: 0</div>
+                <div class="right-hud" id="bestHud">최고: 0</div>
+                <div id="overlayHolder" style="position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none">
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="startBtn">시작</button>
+                <button class="btn secondary" id="pauseBtn">일시정지</button>
+                <div style="flex:1"></div>
+                <div>이동: ←↑↓→ / W A S D · 모바일은 화면 탭</div>
+            </div>
+            <footer>간단한 크로시로드 스타일 게임 — 저장은 로컬스토리지</footer>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            const TILE = 60;
+            let running = false;
+            let paused = false;
+            let score = 0;
+            let best = parseInt(localStorage.getItem('gb_best') || '0', 10);
+
+            const NUM_LANES_ON_SCREEN = Math.floor(height / TILE);
+            const PLAYER_FIXED_Y = height - TILE / 2;
+            const player = {
+                x: Math.floor(width / 2 / TILE) * TILE + TILE / 2,
+                y: PLAYER_FIXED_Y,
+                size: TILE * 0.7,
+                color: '#ffcf70'
+            };
+
+            const lanes = [];
+            const cars = [];
+            let spawnTimers = [];
+            let lastLaneWasRoad = false;
+
+            const scoreHud = document.getElementById('scoreHud');
+            const bestHud = document.getElementById('bestHud');
+            bestHud.textContent = '최고: ' + best;
+            const overlayHolder = document.getElementById('overlayHolder');
+
+            function initLanes() {
+                lanes.length = 0;
+                lastLaneWasRoad = false;
+                for (let i = 0; i < NUM_LANES_ON_SCREEN; i++) {
+                    const isRoad = !lastLaneWasRoad; // 번갈아 생성
+                    lastLaneWasRoad = isRoad;
+                    lanes.push({
+                        index: i,
+                        isRoad: isRoad,
+                        dir: (Math.random() > 0.5 ? 1 : -1),
+                        speedBase: 1 + Math.random() * 1.4
+                    });
+                }
+                spawnTimers = new Array(lanes.length).fill(0);
+            }
+
+            function shiftWorldDown() {
+                for (let ln of lanes) ln.index += 1;
+
+                while (lanes.length > 0 && lanes[lanes.length - 1].index * TILE >= height + TILE) {
+                    lanes.pop();
+                }
+
+                const newIndex = lanes[0].index - 1;
+                const isRoad = !lastLaneWasRoad; // 번갈아 생성
+                lastLaneWasRoad = isRoad;
+                lanes.unshift({
+                    index: newIndex,
+                    isRoad: isRoad,
+                    dir: (Math.random() > 0.5 ? 1 : -1),
+                    speedBase: 1 + Math.random() * 1.4
+                });
+
+                spawnTimers.unshift(0);
+                spawnTimers.pop();
+
+                // 자동차 전체 아래로 이동
+                for (let c of cars) c.y += TILE;
+
+                // 화면 아래로 사라진 자동차 제거
+                for (let i = cars.length - 1; i >= 0; i--) {
+                    if (cars[i].y > height + TILE) cars.splice(i, 1);
+                }
+            }
+
+            function resetGame() {
+                score = 0;
+                running = false;
+                paused = false;
+                player.x = Math.floor(width / 2 / TILE) * TILE + TILE / 2;
+                player.y = PLAYER_FIXED_Y;
+                cars.length = 0;
+                initLanes();
+                updateHUD();
+            }
+
+            function startGame() {
+                resetGame();
+                running = true;
+                overlayHolder.innerHTML = '';
+            }
+
+            function gameOver() {
+                running = false;
+                if (score > best) {
+                    best = score;
+                    localStorage.setItem('gb_best', best);
+                    bestHud.textContent = '최고: ' + best;
+                }
+                showOverlay('게임오버', `점수: ${score}`, '다시 시작', () => startGame());
+            }
+
+            function showOverlay(t, msg, btn, handler) {
+                overlayHolder.innerHTML = '';
+                const div = document.createElement('div');
+                div.className = 'overlay';
+                div.style.pointerEvents = 'auto';
+                div.innerHTML = `<h2>${t}</h2><p>${msg}</p>`;
+                if (btn) {
+                    const b = document.createElement('button');
+                    b.className = 'btn';
+                    b.textContent = btn;
+                    b.onclick = () => {
+                        handler();
+                        overlayHolder.innerHTML = '';
+                    };
+                    div.appendChild(b);
+                }
+                overlayHolder.appendChild(div);
+            }
+
+            function updateHUD() {
+                scoreHud.textContent = '점수: ' + score;
+            }
+
+            function tryMove(dx, dy) {
+                const nx = player.x + dx * TILE;
+                if (nx < 0 || nx > width) return;
+                player.x = nx;
+
+                if (dy === -1) {
+                    score += 10;
+                    updateHUD();
+                    shiftWorldDown();
+                }
+            }
+
+            function spawnCar(laneIndex) {
+                const lane = lanes[laneIndex];
+                if (!lane.isRoad) return;
+
+                const w = TILE * (1 + Math.floor(Math.random() * 2));
+                const h = TILE * 0.7;
+                const y = lane.index * TILE + TILE / 2;
+                const dir = lane.dir;
+                const speed = (lane.speedBase + Math.random() * 0.8) * 1.2;
+                const x = dir > 0 ? -w : width + w;
+                cars.push({ x, y, w, h, dir, speed, color: Math.random() > 0.5 ? '#f04c4c' : '#ffd166' });
+            }
+
+            function checkCollision(c) {
+                const px = player.x - player.size / 2;
+                const py = player.y - player.size / 2;
+                const pw = player.size;
+                const ph = player.size;
+
+                const cx = c.x;
+                const cy = c.y - c.h / 2;
+                const cw = c.w;
+                const ch = c.h;
+
+                return !(px + pw < cx || px > cx + cw || py + ph < cy || py > cy + ch);
+            }
+
+            const keys = {};
+            window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
+            window.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+            canvas.addEventListener('click', () => { if (!running) startGame(); });
+
+            let last = performance.now();
+            function loop(now) {
+                const dt = now - last;
+                last = now;
+
+                if (running && !paused) {
+                    if (keys['arrowleft'] || keys['a']) { tryMove(-1, 0); keys['arrowleft'] = keys['a'] = false; }
+                    if (keys['arrowright'] || keys['d']) { tryMove(1, 0); keys['arrowright'] = keys['d'] = false; }
+                    if (keys['arrowup'] || keys['w']) { tryMove(0, -1); keys['arrowup'] = keys['w'] = false; }
+
+                    for (let i = 0; i < lanes.length; i++) {
+                        const lane = lanes[i];
+                        if (!lane.isRoad) continue;
+                        spawnTimers[i] -= dt;
+                        if (spawnTimers[i] <= 0) {
+                            spawnCar(i);
+                            spawnTimers[i] = 900 + Math.random() * 1200;
+                        }
+                    }
+
+                    for (let i = cars.length - 1; i >= 0; i--) {
+                        const c = cars[i];
+                        c.x += c.speed * (dt / 16) * c.dir;
+                        if ((c.dir > 0 && c.x > width + 200) || (c.dir < 0 && c.x < -200)) cars.splice(i, 1);
+                        else if (checkCollision(c)) gameOver();
+                    }
+                }
+
+                render();
+                requestAnimationFrame(loop);
+            }
+
+            function render() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let lane of lanes) {
+                    const top = lane.index * TILE;
+                    ctx.fillStyle = lane.isRoad ? '#333' : '#8fd694';
+                    ctx.fillRect(0, top, width, TILE);
+                }
+
+                for (let c of cars) {
+                    ctx.fillStyle = c.color;
+                    ctx.fillRect(c.x, c.y - c.h / 2, c.w, c.h);
+                }
+
+                ctx.fillStyle = player.color;
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, player.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            document.getElementById('startBtn').addEventListener('click', startGame);
+            document.getElementById('pauseBtn').addEventListener('click', () => {
+                if (!running) return;
+                paused = !paused;
+                document.getElementById('pauseBtn').textContent = paused ? '계속' : '일시정지';
+                if (paused) showOverlay('일시정지', '');
+                else overlayHolder.innerHTML = '';
+            });
+
+            initLanes();
+            showOverlay('길건너친구들', '시작하려면 클릭', '시작', () => startGame());
+            requestAnimationFrame(loop);
+        })();
+    </script>
+</body>
+</html>
