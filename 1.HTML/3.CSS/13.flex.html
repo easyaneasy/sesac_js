@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            margin: 5px;
+        }
+
+        .container {
+            display: flex; /* 기본 박스 요소를 가로로 */
+            flex-wrap: wrap; /* 줄바꿈 허용 */
+            justify-content: space-between;
+            /* space-around : 각 요소의 좌우에 동일한 여백을 줌 */
+            /* space-between : 양 끝 요소는 컨테이너에 딱 붙고, 나머지 요소들 사이의 간격만 동일하게 분배 */
+            /* space-evenly : 모든 간격(요소-요소 / 요소-컨테이너)이 완전히 동일 */
+            height: 500px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+</body>
+</html>
