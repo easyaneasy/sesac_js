@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+#login-container {
+    display: flex;
+    justify-content: center; /* 가로 중앙 */
+    align-items: center; /* 세로 중앙 */
+    height: 100%; 
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 350px;
+    height: 350px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 그림자 적용 */
+    text-align: center;
+    padding: 25px;
+}
+
+label {
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+#signup {
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+#signup p {
+    color: rgb(110, 110, 110);
+}
+
+#signup a {
+    text-decoration: none;
+    color: rgb(68, 118, 255);
+}
+
+#login-form > input {
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+
+#btn {
+    background-color: rgb(68, 118, 255);
+    color: white;
+    cursor: pointer;
+}
