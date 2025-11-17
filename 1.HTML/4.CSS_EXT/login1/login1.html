@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="login1.css">
+</head>
+<body>
+    <div class="main">
+        <input type="checkbox" id="checkbox">
+        <div class="signup">
+            <form>
+                <label for="checkbox" aria-hidden="true">Sign up</label> <!-- 스크린 리더에게 완전히 숨김 -->
+                <input type="text" name="text" placeholder="User name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button>Sign up</button>
+            </form>
+        </div>
+        <div class="login">
+            <form>
+                <label for="checkbox" aria-hidden="true" id="loginlabel">Login</label> <!-- 스크린 리더에게 완전히 숨김 -->
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button>Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
