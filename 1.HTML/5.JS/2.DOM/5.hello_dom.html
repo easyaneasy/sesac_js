@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>헬로우 DOM</h1>
+    <button onclick="sayHello()">Hello</button>
+    <div id="hello"></div>
+
+    <script>
+        // 미션 : 버튼을 눌렀을 때 버튼 아래에 say 헬로우.. 가 나오게 만들기
+        function sayHello(){
+            // console.log("say 헬로우..");
+            let hello_div = document.getElementById("hello");
+            hello_div.textContent = "say 헬로우..";
+            // hello_div.innerHTML = "<b>say 헬로우..</b>"
+            // hello_div.outerHTML = "<b>say 헬로우..</b>"
+
+            // 결론적으로 document에 쓰기 위한 다양한 함수들이 있음
+            // .textContent : 내가 쓰고싶은 글을 있는 그대로 표현 (태그 파싱 안함)
+            // .innerHTML : 내가 쓰고싶은 글을 HTML로 파싱해서 표현
+            // .outerHTML : 몰라도 괜찮음. 실제로는 내가 선택한 HTML요소를 대체함
+        }
+    </script>
+</body>
+</html>

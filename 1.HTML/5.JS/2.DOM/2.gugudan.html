@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>구구단 콘솔</h1>
+    <input id="userInput" type="number" placeholder="단을 입력하시오">
+    <button onclick="gugudan()">구구단 출력</button>
+    
+    <div id="result"></div>
+    
+    <!-- 위는 HTML로 정해진 문법과 표현에 따라 각종 표현기법을 정의하는 곳 -->
+    <!-- 아래는 프로그래밍 언어로 각종 연산을 내맘대로 하는 곳 -->
+    <script>
+        function gugudan() {
+            // 인자를 미리 HTML에서 가져다가 전달할 수 없음
+            // 여기에 사용자가 html 코드 어딘가에서 입력한 글자를 가져와야함
+            // userInput이라는 아이디를 가진 태그 전체를 가져온다
+            let dan = document.getElementById("userInput");
+            let danInput = dan.value;
+            // let dan = document.getElementById("userInput").value;
+            // console.log(dan);
+
+            let result = document.getElementById("result");
+            result.innerHTML = ""
+
+            for(let i = 0; i < 10; i++){
+                console.log(danInput + " x " + i + " = " + danInput * i);
+
+                // 이제 결과를 화면에 띄워야함
+                // result.textContent += danInput + "x" + i + "=" + danInput*i;
+                // html이라고 알려주기
+                result.innerHTML += danInput + "x" + i + "=" + danInput*i + "<br>";
+                // 반복문이 실행하기 전에 이전 결과 지우기
+            }
+        }
+    </script>
+</body>
+</html>

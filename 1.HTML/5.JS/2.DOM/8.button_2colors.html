@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            color: green;
+            background-color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title" >헬로우 DOM 버튼</h1>
+    <button onclick="changeRedColor()">빨강/노란배경</button>
+    <button onclick="changeBlueColor()">파랑/하늘색배경</button>
+    <button onclick="reset()">초기화하기</button>
+
+    <script>
+        // 미션2 : 버튼 2개를 넣고 첫번째 버튼은 빨강/노란배경 두번째 버튼은 파랑/하늘색배경
+        const heading = document.getElementById("title");
+
+        function changeRedColor(){
+            heading.style.color = "red";
+            heading.style.backgroundColor = "yellow";
+            heading.style.width = "300px";
+        }
+
+        function changeBlueColor(){
+            heading.style.color = "blue";
+            heading.style.backgroundColor = "lightblue";
+            heading.style.width = "300px";
+        }
+
+        function reset(){
+            // heading.style.color = "";
+            // heading.style.backgroundColor = "";
+            // heading.style.width = "";
+            heading.removeAttribute("style");
+        }
+    </script>
+</body>
+</html>
