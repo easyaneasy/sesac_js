@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #result{
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guess the Number (1~100)</h1>
+    <input id="inputNum" type="number" placeholder="Enter your guess">
+    <button onclick="checkNum()">Guess</button>
+    <div id="result"></div>
+
+    <script>
+        // 1~100 랜덤 숫자 생성
+        const randomNum = Math.floor(Math.random() * 100) + 1;
+        console.log(randomNum);
+
+        function checkNum(){
+            const inputNum = document.getElementById("inputNum").value;
+            const result = document.getElementById("result");
+
+            if(inputNum == randomNum){
+                result.textContent = "Correct! You guessed the number!";
+            }else if(inputNum > randomNum){
+                result.textContent = "Too high!";
+            }else{
+                result.textContent = "Too low!";
+            } 
+        }
+    </script>
+</body>
+</html>

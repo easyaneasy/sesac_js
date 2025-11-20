@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #result{
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guess the Number (1~100)</h1>
+    
+    <input id="inputNum" type="number" placeholder="Enter your guess">
+    <button onclick="checkNum()">Guess</button>
+    <div id="result"></div>
+
+    <h2>Guess History</h2>
+    <div id="history"></div>
+
+    <script>
+        // 1~100 랜덤 숫자 생성
+        const randomNum = Math.floor(Math.random() * 100) + 1;
+        console.log(randomNum);
+        let count = 0;
+        function checkNum(){
+            const inputNum = Number(document.getElementById("inputNum").value);
+            const result = document.getElementById("result");
+            const history = document.getElementById("history");
+            let comment = "";
+            count++;
+
+            if(inputNum === randomNum){
+                comment = "Correct! You guessed the number!";
+            }else if(inputNum > randomNum){
+                comment = "Too high!";
+            }else{
+                comment = "Too low!";
+            }
+            result.textContent = comment;
+            history.innerHTML += `${count}. You guessed ${inputNum}: ${comment}<br>`;
+        }
+    </script>
+</body>
+</html>
