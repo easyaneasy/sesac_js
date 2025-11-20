@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>고차함수 : 인자를 함수로 받는 함수</h1>
+    <script>
+        // map, reduce 등등
+        let numbers = [1, 2, 3, 4, 5];
+        // map() : 입력값을 어떻게 처리할지 그 함수와 매핑한다. 새로운 배열을 만든다.
+        let square = numbers.map(
+            function hello(num){
+                return num * num;
+            }
+        );
+        console.log(square);
+
+        // 익명함수 (함수가 이름이 필요없으니 이름을 없애자)
+        let square2 = numbers.map(
+            function (num){
+                return num * num;
+            }
+        );
+        console.log(square2);
+
+        // 화살표 함수 : 함수 이름이 필요없으니 함수 자체를 없애자
+        let square3 = numbers.map(
+            (num) => {
+                return num * num;
+            }
+        );
+        console.log(square3);
+
+        // 결론적으로 가장 발전한 형태
+        let square4 = numbers.map((num) => num * num);
+        console.log(square4);
+
+        // 이 square4의 표현식이 앞으로 계속 쓰게될 모던 JS의 표현법
+        // 고차함수는 다 화살표함수로 구현한다 (실무적으로)
+
+        let evenNumbers = numbers.filter((num) => num % 2 == 0);
+        console.log(evenNumbers);
+
+        let oddNumbers = numbers.filter((num) => num % 2 == 1);
+        console.log(oddNumbers);
+
+        // 줄이는 과정 익명함수 -> 화살표함수 -> 감소화 1단계 -> 간소화 2단계 까지 거치다보면
+        let evenNumbers2 = numbers.filter(n => n % 2 == 0);
+        console.log(evenNumbers2);
+    </script>
+</body>
+</html>

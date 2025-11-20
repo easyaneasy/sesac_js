@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>버튼을 통한 숫자 제어</h1>
+    <input type="text" value="hello" placeholder="숫자/글자 아무거나 입력하세요">
+    <div id="result">0</div>
+
+    <div>
+        <button onclick="number_inc2()">+1</button>
+        <button onclick="number_dec2()">-1</button>
+    </div>
+
+    <script>
+        let resultDiv = document.getElementById("result");
+        let count = 0;
+
+        function number_inc(){
+            count++;
+            resultDiv.textContent = count;
+        }
+
+        function number_dec(){
+            count--;
+            resultDiv.textContent = count;
+        }
+
+        // function number_inc2(){
+        //     // 1. DOM을 가져온다
+        //     resultDiv = document.getElementById("result");
+        //     // 2. 계산한다
+        //     incResult = Number(resultDiv.innerText) + 1;
+        //     // 3. 다시 DOM에다가 결과를 쓴다
+        //     resultDiv.innerText = incResult;
+        // }
+
+        // function number_dec2(){
+        //     // 1. DOM을 가져온다
+        //     resultDiv = document.getElementById("result");
+        //     // 2. 계산한다
+        //     incResult = Number(resultDiv.innerText) - 1;
+        //     // 3. 다시 DOM에다가 결과를 쓴다
+        //     resultDiv.innerText = incResult;
+        // }
+    </script>
+</body>
+</html>

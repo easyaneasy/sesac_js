@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 삼각형
+        console.log("삼각형 그리기");
+        for(let i = 1; i <= 5; i++){
+            let stars = "";
+            for(let n = 1; n <= i; n++){
+                stars += "*";
+            }
+            console.log(stars);
+        }
+
+        for(let i = 1; i <= 5; i++){
+            console.log("*".repeat(i));
+        }
+
+        console.log("역삼각형 그리기");
+        // 역삼각형
+        for(let i = 5; i >= 1; i--){
+            let stars = "";
+            for(let n = 1; n <= i; n++){
+                stars += "*";
+            }
+            console.log(stars);
+        }
+
+        for(let i = 5; i >= 1; i--){
+            console.log("*".repeat(i));
+        }
+
+        // 오른쪽 삼각형
+        console.log("오른쪽 삼각형 그리기");
+        for(let i = 1; i <= 5; i++){
+            let stars = ""
+            
+            // 공백추가
+            for(let s = 1; s <= 5 - i; s++){
+                stars += " ";
+                // i가 1이면 공백 4개
+                // i가 2면 공백 3개 ...
+            }
+            for(let n = 1; n <= i; n++){
+                stars += "*";
+            }
+            console.log(stars);
+        }
+
+        for(let i = 1; i <= 5; i++){
+            console.log(" ".repeat(5 - i) + "*".repeat(i));
+        }
+
+        // 오른쪽 역삼각형
+        console.log("오른쪽 역삼각형 그리기");
+        for(let i = 5; i >= 1; i--){
+            let stars = "";
+            // 공백
+            for(let s = 1; s <= 5 - i; s++){
+                stars += " ";
+            }
+            for(let n = 1; n <= i; n++){
+                stars += "*";
+            }
+            console.log(stars);
+        }
+
+        for(let i = 5; i >= 1; i--){
+            console.log(" ".repeat(5 - i) + "*".repeat(i));
+        }
+    </script>
+</body>
+</html>

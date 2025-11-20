@@ -12,7 +12,7 @@ function randomBGColor(){
     const green = Math.floor(Math.random() * 255);
     const blue = Math.floor(Math.random() * 255);
     const hex = "#" + 
-                    red.toString(16).padStart(2, "0") + 
+                    red.toString(16).padStart(2, "0") + // 숫자를 16진수로 바꾸고 문자열 길이가 2가 될때까지 앞에 0을 채운다
                     green.toString(16).padStart(2, "0") + 
                     blue.toString(16).padStart(2, "0");
     

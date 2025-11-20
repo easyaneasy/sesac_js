@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        td{
+            padding: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>테이블을 DOM으로 제어해보기</h1>
+    <table>
+        <tr>
+            <td>셀 1</td>
+            <td>셀 2</td>
+            <td>셀 3</td>
+        </tr>
+        <tr>
+            <td>셀 4</td>
+            <td>셀 5</td>
+            <td>셀 6</td>
+        </tr>
+        <tr>
+            <td>셀 7</td>
+            <td>셀 8</td>
+            <td>셀 9</td>
+        </tr>
+        <tr></tr>
+            <td>셀 10</td>
+            <td>셀 11</td>
+            <td>셀 12</td>
+        </tr>
+    </table>
+
+    <button onclick="changeCellColor()">셀 색상 모두 변경</button>
+    <button onclick="changeEvenCellColor()">짝수셀 색상 모두 변경</button>
+    <button onclick="changeOddCellColor()">홀수셀 색상 모두 변경</button>
+
+    <script>
+        function changeCellColor(){
+            let cells = document.getElementsByTagName("td");
+            // console.log(cells);
+            
+            // 이렇게 하면 안됨 인덱스로 접근해야됨
+            // cells.style.backgroundColor = "lightblue";
+
+            for(let i = 0; i < cells.length; i++){
+                cells[i].style.backgroundColor = "lightblue";
+            }
+        }
+        // 짝수
+        function changeEvenCellColor(){
+            let cells = document.getElementsByTagName("td");
+            for(let i = 0; i < cells.length; i++){
+                if(i % 2 == 1){
+                    cells[i].style.backgroundColor = "lightgreen";
+                }
+            }
+        }
+        // 짝수 두번쨰 방법 - 배수로 증가하기
+        function changeEvenCellColor2(){
+            let cells = document.getElementsByTagName("td");
+            for(let i = 1; i < cells.length; i += 2){
+                cells[i].style.backgroundColor = "lightgreen";
+            }
+        }
+        
+        // 홀수
+        function changeOddCellColor(){
+            let cells = document.getElementsByTagName("td");
+            for(let i = 0; i < cells.length; i++){
+                if(i % 2 == 0){
+                    cells[i].style.backgroundColor = "orange";
+                }
+            }
+        }
+        // 홀수 두번쨰 방법 - 배수로 증가하기
+        function changeOddCellColor2(){
+            let cells = document.getElementsByTagName("td");
+            for(let i = 0; i < cells.length; i += 2){
+                cells[i].style.backgroundColor = "orange";
+            }
+        }
+    </script>
+</body>
+</html>
