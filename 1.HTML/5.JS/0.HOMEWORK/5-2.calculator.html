@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        .layout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+        }
+        .container{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 50px);
+            gap: 10px;
+            width: 300px;
+        }
+        #display {
+            grid-column: 1 / 5;
+        }
+    </style>
+</head>
+<body>
+    <!-- grid를 사용해서 디자인 완성하기 -->
+    <div class="layout"> 
+        <div class="container">
+            <input type="text" id="display">
+
+            <button onclick="appendValue(this)">+</button>
+            <button onclick="appendValue(this)">-</button>
+            <button onclick="appendValue(this)">*</button>
+            <button onclick="appendValue(this)">/</button>
+            
+            <button onclick="appendValue(this)">7</button>
+            <button onclick="appendValue(this)">8</button>
+            <button onclick="appendValue(this)">9</button>
+            <button onclick="appendValue(this)">=</button>
+            
+            <button onclick="appendValue(this)">4</button>
+            <button onclick="appendValue(this)">5</button>
+            <button onclick="appendValue(this)">6</button>
+            <button onclick="appendValue(this)">C</button>
+
+            <button onclick="appendValue(this)">1</button>
+            <button onclick="appendValue(this)">2</button>
+            <button onclick="appendValue(this)">3</button>
+            <button onclick="appendValue(this)">0</button>
+        </div>
+    </div>
+
+    <script>
+        // 5-2 버튼을 클릭하면 해당 숫자가 화면에 나타나게 (onclick)
+
+        const display = document.getElementById("display");
+        function appendValue(button){
+            display.value += button.textContent;
+        }
+    </script>
+</body>
+</html>

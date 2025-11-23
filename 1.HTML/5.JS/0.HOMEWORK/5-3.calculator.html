@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        .layout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+        }
+        .container{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 50px);
+            gap: 10px;
+            width: 300px;
+        }
+        #display {
+            grid-column: 1 / 5;
+        }
+    </style>
+</head>
+<body>
+    <!-- grid를 사용해서 디자인 완성하기 -->
+    <div class="layout"> 
+        <div class="container">
+            <input type="text" id="display">
+
+            <button>+</button>
+            <button>-</button>
+            <button>*</button>
+            <button>/</button>
+            
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>=</button>
+            
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>C</button>
+
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>0</button>
+        </div>
+    </div>
+
+    <script>
+        // 5-3 실제로 계산을 수행한다
+
+        const display = document.getElementById("display");
+        const buttons = document.querySelectorAll("button");
+        let expression = "";
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const value = btn.textContent;
+
+                // 초기화
+                if(value === "C"){
+                    expression = ""; // 식 초기화
+                    display.value = "" // 화면 초기화
+                    return;
+                }
+
+                // 계산
+                if(value === "="){
+                    display.value = eval(expression); // 계산
+                    expression = display.value;
+                    return;
+                }
+
+                // 숫자/연산자 식에 추가, 화면에 추가
+                expression += value;
+                display.value = expression;
+            });
+        });
+    </script>
+</body>
+</html>
