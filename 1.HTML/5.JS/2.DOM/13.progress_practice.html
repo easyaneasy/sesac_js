@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #progressBar{
+            width: 100%;
+            height: 50px;
+            background-color: lightgray;
+            display: flex;
+            align-items: center;
+        }
+        #progress{
+            width: 1px;
+            height: 40px;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Progress Bar</h1>
+    <input type="number" id="inputNum">
+    <!-- <button id="start" onclick="startProgress()">start</button> -->
+    <button id="start">start</button>
+    <button id="reset">reset</button>
+    <div id="progressBar">
+        <div id="progress"></div>
+    </div>
+
+    <script>
+        // 1. 버튼을 클릭했을때 입력한 숫자만큼 width 크기 주기 (%)
+        /* const progress = document.getElementById("progress");
+        const start = document.getElementById("start");
+
+        start.addEventListener("click", () => {
+            // 입력값은 클릭할때마다 달라지니까 이벤트 안에 있어야함
+            const inputNum = document.getElementById("inputNum").value;
+            progress.style.width = `${Number(inputNum)}%`;
+        }); */
+
+        // 2. 기본 시작 종료 -> 입력값은 초(sec) -> 100%채우기 (onclick으로)
+        /* function startProgress(){
+            const sec = document.getElementById("inputNum").value;
+            const progressBar = document.getElementById("progress");
+
+            let progress = (100 / sec); // 1초마다 얼마나 증가할지
+            let time = 0; // 경과된 시간 저장
+
+            const timer = setInterval(() => {
+                time++; // 시간 1씩 증가
+                progress = (100 / sec) * time; // 누적 퍼센트 계산
+                progressBar.style.width = `${progress}%`
+                if(progress >= 100){
+                    clearInterval(timer);
+                    console.log("끝");
+                }
+            }, 1000);
+        } */
+        
+        // 3. 버튼 비활성화 및 초기화 버튼 만들기 
+        const start = document.getElementById("start");
+        const reset = document.getElementById("reset");
+        const progressBar = document.getElementById("progress");
+        let timer = null;
+
+        start.addEventListener("click", () => {
+            const sec = document.getElementById("inputNum").value;
+            let time = 0; // 경과된 시간 저장
+            start.disabled = true; // 버튼 비활성화
+            
+            timer = setInterval(() => {
+                time++; // 시간 1씩 증가
+                const progress = (100 / sec) * time; // 누적 퍼센트 계산 (100 / 초) * 증가한시간
+                progressBar.style.width = `${progress}%`
+                if(progress >= 100){ 
+                    clearInterval(timer); // 진행 중이면 멈춤
+                    start.disabled = false;
+                    console.log("끝");
+                }
+            }, 1000);
+        });
+
+        reset.addEventListener("click", () => {
+            clearInterval(timer); // 진행 중이면 멈춤
+            start.disabled = false; // 버튼 활성화
+            progressBar.style.width = `1px`; // 프로그래스바 초기화
+            document.getElementById("inputNum").value = ""; // 입력창 초기화
+        });
+    </script>
+</body>
+</html>

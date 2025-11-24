@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Countdown</h1>
+    <input type="number" id="inputNum">
+    <button onclick="countdown()">start</button>
+    <button onclick="reset()">reset</button>
+
+    <div id="display"></div>
+
+    <script>
+        // 초를 입력하고 버튼을 누르면 1초씩 카운트다운 + display에 붙이기
+        // 1. 버튼을 누르면 실행될 함수
+        /*function countdown(){
+            // 2. 입력한 초를 가져온다
+            const sec = document.getElementById("inputNum").value;
+            const display = document.getElementById("display");
+            // 현재 초
+            let now = sec;
+            // 3. 1초씩 줄어들게 만들기
+            const timer = setInterval(() => {
+                // 4. display에 붙이기
+                display.textContent = `${now}초 남았습니다`;
+                if(now <= 0){
+                    clearInterval(timer);
+                    display.textContent = "끝났습니다";
+                }
+                now--;
+            }, 1000);
+        }*/
+        
+        // + 새로운 DOM 요소 추가해서 여러 타이머를 한번에 작동
+        // ++ reset 버튼 추가
+        const display = document.getElementById("display");
+        let timers = [];
+        function countdown(){
+            // 2. 입력한 초를 가져온다
+            const sec = document.getElementById("inputNum").value;
+
+            // -- 새로운 DOM 요소 추가
+            const newElement = document.createElement("p");
+            display.appendChild(newElement);
+
+            // 현재 초
+            let now = Number(sec);
+            // 3. 1초씩 줄어들게 만들기
+            const id = setInterval(() => {
+                // 4. display에 붙이기
+                newElement.textContent = `${now}초 남았습니다`;
+                if(now <= 0){
+                    clearInterval(id);
+                    newElement.textContent = "끝났습니다";
+                }
+                now--;
+            }, 1000);
+            timers.push(id);
+        }
+
+        function reset(){
+            timers.forEach(id => clearInterval(id)); // 모든 타이머 종료
+            /* for문으로 쓴다면
+            for(let i = 0; i < timers.length; i++){
+                clearInterval(timers[i]);
+            } */
+            /* for..of 으로 쓴다면
+            for(let id of timers){
+                clearInterval(id);
+            } */
+
+            timers = []; // 배열 초기화
+            display.textContent = ""; // 화면 비우기
+            document.getElementById("inputNum").value = ""; // 입력창 비우기
+        }
+
+    </script>
+</body>
+</html>
