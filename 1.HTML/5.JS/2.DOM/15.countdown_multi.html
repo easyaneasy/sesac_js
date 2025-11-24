@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>카운트다운 타이머</h1>
+    <input type="number" id="timeInput" placeholder="초 입력">
+    <button onclick="startCountDown()">시작</button>
+    <button onclick="reset()">초기화</button>
+
+    <div id="display"></div>
+
+    <script>
+        // 여러 타이머의 ID를 저장할 배열
+        let timers = [];
+
+        function startCountDown(){
+            let timeInput = document.getElementById("timeInput").value;
+            const display = document.getElementById("display");
+
+            // 새로운 DOM 요소를 추가하려면?
+            // 각 타이머마다 새로운 <p> 요소 생성
+            const timerElement = document.createElement('p');
+            display.appendChild(timerElement);
+
+            let current = Number(timeInput);
+
+            const id = setInterval(() => {
+                timerElement.textContent = `${current} 초 남았습니다`;
+
+                if(current <= 0){
+                    clearInterval(id);
+                    timerElement.textContent = "집에 갈 시간입니다";
+                    console.log("끝");
+                }
+                current--;
+
+            }, 1000);
+
+            // 타이머 아이디를 배열에 저장
+            timers.push(id);
+        }
+
+        function reset(){
+            const display = document.getElementById("display");
+
+            timers.forEach(id => clearInterval(id)); // 모든 타이머 정지
+            timers = []; // 배열 비우기
+            display.textContent = ""; // 화면 비우기
+        }
+    </script>
+</body>
+</html>

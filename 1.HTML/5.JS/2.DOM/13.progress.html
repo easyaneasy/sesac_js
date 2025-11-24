@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input {
+            width: 150px;
+        }
+
+        #progressBar{
+            width: 100%;
+            background-color: #f3f3f3;
+        }
+        #progress {
+            width: 0px;
+            height: 30px;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <h1>Progress Bar Timer</h1>
+    <input type="number" placeholder="초를 입력하세요" min="2" max="16" id="inputNum">
+
+    <button id="startBtn">시작</button>
+    <button id="resetBtn">초기화</button>
+
+    <div id="progressBar">
+        <div id="progress"></div>
+    </div>
+
+    <script>
+        const inputNum = document.getElementById("inputNum");
+        const startBtn = document.getElementById("startBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const progress = document.getElementById("progress");
+
+        let timer = null;
+        let current = 0;
+
+        startBtn.addEventListener("click", () => {
+            const inpuValue = Number(inputNum.value);
+            const increase = 100 / inpuValue;
+
+            timer = setInterval(() => {
+                current += increase;
+                progress.style.width = `${current}%`;
+                if (current >= 100) {
+                    clearInterval(timer);
+                }
+            }, 1000);
+        });
+
+        resetBtn.addEventListener("click", () => {
+            current = 0;
+            progress.style.width = `${current}%`;
+        });
+    </script>
+</body>
+</html>

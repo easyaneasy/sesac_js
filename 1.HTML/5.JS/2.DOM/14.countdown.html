@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>카운트다운 타이머</h1>
+    <input type="number" id="timeInput" placeholder="초 입력">
+    <button onclick="startCountDown()">시작</button>
+
+    <div id="display"></div>
+
+    <script>
+        function startCountDown(){
+            const timeInput = document.getElementById("timeInput").value;
+            const display = document.getElementById("display");
+
+            let current = Number(timeInput);
+
+            const countDown = setInterval(() => {
+                display.textContent = `${current} 초 남았습니다`;
+                if(current <= 0){
+                    clearInterval(countDown);
+                    display.textContent = "집에 갈 시간입니다";
+                    console.log("끝");
+                }
+                current--;
+            }, 1000);
+        }
+    </script>
+    
+</body>
+</html>
