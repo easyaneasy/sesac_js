@@ -8,21 +8,25 @@
 <body>
     <h1>카운트다운 타이머</h1>
     <input type="number" id="timeInput" placeholder="초 입력">
-    <button onclick="startCountDown()">시작</button>
+    <button onclick="startCountDown(this)">시작</button>
 
     <div id="display"></div>
 
     <script>
-        function startCountDown(){
+        function startCountDown(btn){
             const timeInput = document.getElementById("timeInput").value;
             const display = document.getElementById("display");
 
             let current = Number(timeInput);
+            
+            // 버튼 비활성화
+            btn.disabled = true;
 
             const countDown = setInterval(() => {
                 display.textContent = `${current} 초 남았습니다`;
                 if(current <= 0){
                     clearInterval(countDown);
+                    btn.disabled = false; // 버튼 활성화
                     display.textContent = "집에 갈 시간입니다";
                     console.log("끝");
                 }

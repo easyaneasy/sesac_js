@@ -44,16 +44,22 @@
             const inpuValue = Number(inputNum.value);
             const increase = 100 / inpuValue;
 
+            // 버튼 비활성화
+            startBtn.disabled = true;
+
             timer = setInterval(() => {
                 current += increase;
                 progress.style.width = `${current}%`;
                 if (current >= 100) {
                     clearInterval(timer);
+                    startBtn.disabled = false; // 버튼 활성화
                 }
             }, 1000);
         });
 
         resetBtn.addEventListener("click", () => {
+            clearInterval(timer);
+            startBtn.disabled = false; // 버튼 활성화
             current = 0;
             progress.style.width = `${current}%`;
         });
