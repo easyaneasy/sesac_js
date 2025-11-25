@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 200px);
+            grid-template-rows: repeat(2, 200px);
+            gap: 20px;
+        }
+        .box {
+            background-color: rgb(233, 233, 233);
+            border: 2px dotted darkgray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .placeholder{
+            position: absolute;
+            color: darkgray;
+        }
+        #dragItem{
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>7.드래그앤드롭4개박스</h1>
+    <div class="container">
+        <div class="box" id="firstBox">
+            <span class="placeholder">Drop here</span>
+            <div id="dragItem" draggable="true">Drag me</div>
+        </div>
+        <div class="box" id="secondBox"><span class="placeholder">Drop here</span></div>
+        <div class="box" id="thirdBox"><span class="placeholder">Drop here</span></div>
+        <div class="box" id="fourthBox"><span class="placeholder">Drop here</span></div>
+    </div>
+
+    <script>
+        // 1. DOM 요소 가져오기
+        const firstBox = document.getElementById("firstBox");
+        const secondBox = document.getElementById("secondBox");
+        const thirdBox = document.getElementById("thirdBox");
+        const fourthBox = document.getElementById("fourthBox");
+        const dragItem = document.getElementById("dragItem");
+
+        // 2. 드랍 가능하게 dragover
+        [firstBox, secondBox, thirdBox, fourthBox].forEach(box => {
+            box.addEventListener("dragover", (event) => {
+                event.preventDefault();
+            });
+        });
+
+        // 3. 드랍하면 아이템 이동 drop
+        [firstBox, secondBox, thirdBox, fourthBox].forEach(box => {
+            box.addEventListener("drop", (event) => {
+                event.preventDefault();
+                box.appendChild(dragItem);
+                console.log(`현재 위치는 ${box.id} 입니다.`);
+            });
+        });
+
+    </script>
+</body>
+</html>
