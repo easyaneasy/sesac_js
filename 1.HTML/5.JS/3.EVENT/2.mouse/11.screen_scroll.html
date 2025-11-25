@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #content {
+            height: 2000px;
+            background: linear-gradient(to bottom, rgb(255, 192, 76) 0%, rgb(255, 106, 0) 100%);
+        }
+    </style>
+</head>
+<body>
+    <div id="content"></div>
+
+    <script>
+        // DOM(document)에 이벤트를 등록할수도 있고 브라우저(window)에 할수도 있다
+        
+        window.addEventListener("scroll", () => {
+            console.log("페이지 스크롤중");
+
+            // 윈도우에 걸떄는 그 브라우저 특성을 이해해야 한다. 이 브러우저에서 나온다고 모든 브라우저에서 다 나올거라고 장담할수없다. 
+            const scrollPosition = window.pageYOffset;
+            console.log(`현재 스크롤 포지션 : ${scrollPosition}`);
+
+            const scrollPosition2 = document.documentElement.scrollTop;
+            console.log(`현재 스크롤 포지션2 : ${scrollPosition2}`);
+
+            // 따로따로 코딩하자니 번거로우니
+            const ScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+            console.log(ScrollPos);
+
+        });
+    </script>
+</body>
+</html>

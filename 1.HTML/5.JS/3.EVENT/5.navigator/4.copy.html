@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>복사하기</h1>
+    <textarea id="myTextArea">이거 글자를 가져가 보시오</textarea>
+
+    <script>
+        // 해당 영역의 복사를 감지
+        document.getElementById('myTextArea').addEventListener('copy', (event) => {
+            // 복사를 시도했을때 출력
+            console.log("사용자가 복사해가는중..");
+            // 복사 막기
+            event.preventDefault();
+            // 클립보드에 들어갈 텍스트를 강제로 바꾼다
+            event.clipboardData.setData('text/plain', "복사 금지!!");
+        })
+    </script>
+</body>
+</html>

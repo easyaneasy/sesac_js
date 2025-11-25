@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>가지마시오</h1>
+    <script>
+        window.addEventListener('beforeunload', (event) => {
+            event.preventDefault();
+            event.returnValue = "가지마시오~~~";
+            // 사용자에게 표시하는 경고
+            // 창을 닫으려고 하며 ㄴ뜨는 메세지
+            // 지금은 기본 메세지만 가능..
+        });
+    </script>
+</body>
+</html>
