@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #grandparent {
+            padding: 50px;
+            background-color: lightgray;
+        }
+        #parent {
+            padding: 50px;
+            background-color: lightblue;
+        }
+        #child {
+            padding: 50px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <div id="grandparent">
+        Grandparent
+        <div id="parent">
+            Parent
+            <div id="child">
+                Child
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const child = document.getElementById("child");
+        const parent= document.getElementById("parent");
+        const grandparent = document.getElementById("grandparent");
+
+        child.addEventListener("click", (event) => {
+            alert("Child Clicked");
+
+            // 이벤트 버블링을 막기
+            event.stopPropagation();
+        });
+        parent.addEventListener("click", () => {
+            alert("Parent Clicked");
+        });
+        parent.addEventListener("click", () => {
+            alert("Grandparent Clicked");
+        });
+    </script>
+</body>
+</html>
