@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: lightgray;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 200px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 3px 3px 5px darkgray ;
+        }
+        #display {
+            font-size: 30px;
+        }
+        .buttons button {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 스톱워치 시간 표시 -->
+        <div id="display">00:00.00</div>
+
+        <!-- 버튼 -->
+        <div class="buttons">
+            <button id="startBtn">Start</button>
+            <button id="stopBtn">Stop</button>
+            <button id="reset">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let startTime = 0; // 시작 시간을 저장 (밀리초 단위)
+        let elapsed = 0; // 정지한 시간까지 누적된 시간 (밀리초 단위)
+        let timer = null;
+
+        // HTML 요소 가져오기
+        const display = document.getElementById("display");
+        const startBtn = document.getElementById("startBtn");
+        const stopBtn = document.getElementById("stopBtn");
+        const reset = document.getElementById("reset");
+
+        // 처음엔(Start를 누르기 전) Stop 버튼 비활성화
+        stopBtn.disabled = true;
+
+        // 시간 포맷 함수
+        // 밀리초를 받아서 00:00.00 형식으로 바꿔주는 함수
+        function format(ms){
+            let totalMs = ms;
+
+            let minutes = Math.floor(totalMs / 60000); // 분 계산
+            let seconds = Math.floor((totalMs % 60000) / 1000); // 초 계산
+            let centiSec = Math.floor((totalMs % 1000) / 10); // 0~99
+
+            // 두 자리 숫자로 (한 자리 숫자면 앞에 0을 붙여서 두 자리로)
+            minutes = String(minutes).padStart(2, "0");
+            seconds = String(seconds).padStart(2, "0");
+            centiSec = String(centiSec).padStart(2, "0");
+
+            return `${minutes}:${seconds}.${centiSec}`;
+        }
+
+        // Start 버튼 클릭 이벤트
+        startBtn.addEventListener("click", () => {
+            if (timer !== null) return; // 중복 방지
+            startTime = Date.now(); // 시작 시간에 현재 시간(ms) 저장
+
+            // 10ms마다 화면 갱신
+            timer = setInterval(() => {
+                const now = Date.now(); // 현재 시간
+                const total = elapsed + (now - startTime); // 누적시간 계산
+                display.textContent = format(total);
+            }, 10); // 1초마다 count 증가
+
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+        });
+
+        // Stop 버튼 클릭 이벤트
+        stopBtn.addEventListener("click", () => {
+            clearInterval(timer); // 타이머 종료
+            timer = null; // 타이머 변수 초기화 = 타이머가 꺼져있다 라는 상태표시
+            elapsed += Date.now() - startTime; // 멈춘 시점까지 누적
+            
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        });
+
+        reset.addEventListener("click", () => {
+            clearInterval(timer); // 타이머 종료
+            timer = null; // 타이머 변수 초기화
+            startTime = 0; // 시작 시간 초기화
+            elapsed = 0; // 누적 시간 초기화
+            display.textContent = "00:00.00"; // 화면 초기화
+
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>
