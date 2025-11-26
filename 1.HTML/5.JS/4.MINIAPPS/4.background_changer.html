@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #changeColorBtn {
+            width: 200px;
+            height: 50px;
+            font-size: large;
+        }
+        #colorCode {
+            margin-top: 50px;
+            font-size: 50px;
+            background-color: rgba(255, 255, 255, 0.5);
+            color: black;
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button id="changeColorBtn">배경색 바꾸기</button>
+    <div id="colorCode"></div>
+
+    <script>
+        // 랜덤색상 만들기
+        function randomColor(){
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            const hex = "#" + r.toString(16).padStart(2, "0")
+                            + g.toString(16).padStart(2, "0")
+                            + b.toString(16).padStart(2, "0");
+            return hex;
+        }
+
+        // 배경색 적용 & 텍스트 붙이기
+        document.getElementById("changeColorBtn").addEventListener("click", () => {
+            const newColor = randomColor();
+            document.body.style.backgroundColor = newColor;
+            document.getElementById("colorCode").textContent = newColor;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .gallery img {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #large-image {
+            width: 300px;
+            height: 300px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지 갤러리</h1>
+    <div class="gallery">
+        <img src="images/kitty1.jpg">
+        <img src="images/kitty2.jpg">
+        <img src="images/kitty3.jpg">
+    </div>
+    <!-- 방법1 -->
+    <img id="large-image" src="" alt="큰 이미지">
+    <script>
+        const images = document.querySelectorAll('.gallery img');
+        const largeImage = document.getElementById("large-image");
+
+        images.forEach(img => {
+            img.addEventListener("click", () => {
+                largeImage.src = img.src;
+                largeImage.style.display = "block";
+            });
+        });
+
+    </script>
+</body>
+</html>
