@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>  
+</head>
+<body>
+    <div class="container">
+        <h1>투두리스트</h1>
+        <input type="text" id="new-todo" placeholder="할일을 입력하세요">
+        <button id="add-todo">입력</button>
+        <!-- 할일들을 아래에 표시할 예정 -->
+         <ul id="todo-list"></ul>
+    </div>
+
+     <script>
+        // 1. DOM 가져온다
+        const addBtn = document.getElementById("add-todo");
+        const input = document.getElementById("new-todo");
+        // 2. 로직 구현한다
+        // addBtn.addEventListener("click", () => {
+        //     const input = document.getElementById("new-todo");
+        //     newTodo = input.value; // 입력값
+        //     console.log(newTodo);
+
+        //     if(newTodo === ""){
+        //         alert("할일을 입력해주세요");
+        //     }else{
+        //         // 3. DOM에 표시한다
+        //         // 새로운 li를 만든다
+        //         const new_li = document.createElement("li");
+        //         new_li.textContent = newTodo; 
+        //         // ul에 추가한다
+        //         const todoList = document.getElementById("todo-list");
+        //         todoList.appendChild(new_li);
+
+        //         // 입력창 초기화
+        //         input.value = "";
+        //     }
+        // });
+
+        // 엔터를 사용한 입력 구현
+
+        // 데이터 추가 함수
+        function addTodo(){
+            const newTodo = input.value; // 입력값
+
+            if(newTodo.trim() === ""){ // 공백까지 막기
+                alert("할일을 입력해주세요");
+                return;
+            }
+
+            // 3. DOM에 표시한다
+            // 새로운 li를 만든다
+            const new_li = document.createElement("li");
+            new_li.textContent = newTodo; 
+            // ul에 추가한다
+            const todoList = document.getElementById("todo-list");
+            todoList.appendChild(new_li);
+
+            // 입력창 초기화
+            input.value = "";
+        }
+
+        // 버튼클릭시
+        addBtn.addEventListener("click", () => {
+            addTodo();
+        });
+
+        // 엔터키 누를때
+        input.addEventListener("keydown", (e) => {
+            if(e.key == "Enter"){
+                addTodo();
+            }
+        });
+
+     </script>
+</body>
+</html>

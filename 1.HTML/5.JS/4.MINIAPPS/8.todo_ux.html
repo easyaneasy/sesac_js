@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #todo-list li span.active {
+            text-decoration: line-through;
+            color: darkgray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Tasks</h1>
+        <div class="inputBox">
+            <input type="text" id="new-todo" placeholder="Add a new task..">
+            <button id="add-todo">Add +</button>
+        </div>
+        <!-- 할일들을 아래에 표시할 예정 -->
+         <ul id="todo-list">
+            <li>
+                <span>예시</span>
+                <button class="deleteBtn">삭제</button>
+            </li>
+         </ul>
+    </div>
+
+     <script>
+        // 1. DOM 가져온다
+        const addBtn = document.getElementById("add-todo");
+        const input = document.getElementById("new-todo");
+        const todoList = document.getElementById("todo-list");
+
+        // 완료, 취소 - li 클릭시, 삭제 버튼 클릭시
+        todoList.addEventListener("click", (e) => {
+            if(e.target.tagName == "SPAN"){
+                // toggle은 클래스가 있으면 제거, 없으면 추가하는 메서드
+                e.target.classList.toggle("active");
+            }
+
+            if(e.target.tagName == "BUTTON"){
+                const parentLi = e.target.parentElement; // 버튼의 부모 li
+                parentLi.remove(); // li 삭제
+            }
+        });
+
+        // 데이터 추가 함수
+        function addTodo(){
+            const newTodo = input.value; // 입력값
+
+            if(newTodo.trim() === ""){ // 공백까지 막기
+                alert("할일을 입력해주세요");
+                return;
+            }
+
+            // 3. DOM에 표시한다
+            // 새로운 li & span
+            const new_li = document.createElement("li");
+            const span = document.createElement("span");
+            span.textContent = newTodo;
+            // ul에 추가한다
+            todoList.appendChild(new_li);
+            new_li.appendChild(span);
+            // 입력창 초기화
+            input.value = "";
+
+            // li 옆에 삭제 버튼 만들기
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "삭제";
+            new_li.appendChild(deleteBtn);
+        }
+
+        // 버튼클릭시
+        addBtn.addEventListener("click", () => {
+            addTodo();
+        });
+
+        // 엔터키 누를때
+        input.addEventListener("keypress", (e) => {
+            if(e.key == "Enter"){
+                addTodo();
+            }
+        });
+     </script>
+</body>
+</html>

@@ -43,6 +43,8 @@
             <button id="stopBtn">Stop</button>
             <button id="reset">Reset</button>
         </div>
+
+        <div class="history"></div>
     </div>
 
     <script>
@@ -55,6 +57,8 @@
         const startBtn = document.getElementById("startBtn");
         const stopBtn = document.getElementById("stopBtn");
         const reset = document.getElementById("reset");
+        const history = document.getElementById*("history");
+        let newHistory = document.createElement("p"); 
 
         // 처음엔(Start를 누르기 전) Stop 버튼 비활성화
         stopBtn.disabled = true;
@@ -97,6 +101,10 @@
             clearInterval(timer); // 타이머 종료
             timer = null; // 타이머 변수 초기화 = 타이머가 꺼져있다 라는 상태표시
             elapsed += Date.now() - startTime; // 멈춘 시점까지 누적
+
+            // Stop 버튼을 누를때마다 현재 시간 history 추가
+            newHistory += elapsed;
+            history.appendChild(newHistory);
             
             startBtn.disabled = false;
             stopBtn.disabled = true;
