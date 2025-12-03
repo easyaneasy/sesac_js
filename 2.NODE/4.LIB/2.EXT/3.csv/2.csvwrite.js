@@ -11,7 +11,7 @@ const csvWriter = createCsvWriter({
 });
  
 const records = [
-    {name: '홍길동', age: 24, gender: "남성", birthdate: '2000-01-0'},
+    {name: '홍길동', age: 24, gender: "남성", birthdate: '2000-01-01'},
     {name: '김길동', age: 25, gender: "여성", birthdate: '2001-03-07'},
     {name: '김길동', age: 27, gender: "남성", birthdate: '2002-08-09'},
 ];
