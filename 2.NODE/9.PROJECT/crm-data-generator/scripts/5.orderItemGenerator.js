@@ -1,13 +1,13 @@
 const fs = require('fs');
-const IdGenerator = require('./generators/common/IdGenerator');
+const IdGenerator = require('../generators/common/IdGenerator');
 
 // 이미 생성된 CSV 파일 읽기 (OrderId,ItemId)
-const orderData = fs.readFileSync('orders.csv', 'utf-8')
+const orderData = fs.readFileSync('../data/orders.csv', 'utf-8')
     .split('\n')
     .slice(1) // 헤더 제외
     .map(line => line.split(',')[0]);
 
-const itemData = fs.readFileSync('items.csv', 'utf-8')
+const itemData = fs.readFileSync('../data/items.csv', 'utf-8')
     .split('\n')
     .slice(1)
     .map(line => line.split(',')[0]);
@@ -18,7 +18,9 @@ function randomChoice(arr) {
 
 const idGen = new IdGenerator();
 
-const orderItemCount = 10;
+const orderItemCount = Number(process.argv[2]);
+const outputType = process.argv[3];
+
 const header = 'Id,OrderId,ItemId';
 const csvRows = [header];
 
@@ -35,4 +37,10 @@ for (let i = 0; i < orderItemCount; i++) {
     csvRows.push(row);
 }
 
-fs.writeFileSync('orderItems.csv', csvRows.join('\n'), 'utf-8');
+if (outputType === 'console') {
+    console.log(csvRows.join('\n'));
+}else if((outputType === 'csv')){
+    fs.writeFileSync('../data/orderItems.csv', csvRows.join('\n'), 'utf-8');
+}else {
+    console.log("잘못입력했습니다");
+}
